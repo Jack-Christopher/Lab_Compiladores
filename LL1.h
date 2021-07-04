@@ -4,9 +4,10 @@ public:
     Grammar grammar;
     TAS tas;
     void setTAS();
-    void setGrammar(std::string fileName);
+    void setGrammar(std::string fileName, std::string simboloInicial);
     std::queue<std::string> getQueueFromString(std::string cadena);
-    bool analyze(std::string cadena);
+    bool verifyAlgorithm(std::string cadena);
+    bool verify(std::string tempText);
     LL1() = default;
     LL1(Grammar g );
 };
@@ -31,9 +32,9 @@ void LL1::setTAS()
 }
 
 
-void LL1::setGrammar(std::string fileName)
+void LL1::setGrammar(std::string fileName, std::string simboloInicial)
 {
-    this->grammar.readGrammarFromTXT(fileName);
+    this->grammar.readGrammarFromTXT(fileName, simboloInicial);
     setTAS();
 }
 
@@ -62,7 +63,7 @@ std::queue<std::string> LL1::getQueueFromString(std::string cadena)
 }
 
 
-bool LL1::analyze(std::string cadena)
+bool LL1::verifyAlgorithm(std::string cadena)
 {
     std::stack<std::string> pila;
     pila.push( "$" );
@@ -100,4 +101,13 @@ bool LL1::analyze(std::string cadena)
     }
 
     return (entrada.empty() && pila.empty());
+}
+
+
+bool LL1::verify(std::string tempText)
+{
+    if (verifyAlgorithm(tempText))
+        std::cout<< tempText<<" :Cadena Aceptada\n\n";
+    else
+        std::cout<< tempText<<" :Cadena NO Aceptada\n\n";
 }
